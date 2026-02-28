@@ -55,3 +55,83 @@
                 <span id="hours" class="text-2xl font-bold block">00</span>
                 <span class="text-[10px] opacity-60">HRS</span>
             </div>
+            <div class="bg-black/30 p-3 rounded-xl border border-white/10">
+                <span id="mins" class="text-2xl font-bold block">00</span>
+                <span class="text-[10px] opacity-60">MINS</span>
+            </div>
+            <div class="bg-black/30 p-3 rounded-xl border border-white/10">
+                <span id="secs" class="text-2xl font-bold block">00</span>
+                <span class="text-[10px] opacity-60">SECS</span>
+            </div>
+        </div>
+
+        <div class="mb-6 text-left relative">
+            <div class="flex justify-between text-xs mb-2 opacity-80">
+                <span>自由進度</span>
+                <span id="percent-text">0%</span>
+            </div>
+            <div class="w-full bg-white/10 h-3 rounded-full relative">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transition-all duration-1000" style="width: 0%">
+                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueGZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/Jm6E0b9W9T1mP6y3u3/giphy.gif" class="cat-runner">
+                </div>
+            </div>
+        </div>
+
+        <div class="min-h-[60px] flex items-center justify-center bg-white/5 rounded-2xl p-4">
+            <p id="quote" class="text-sm italic opacity-90 leading-relaxed text-blue-100">「載入自由中...」</p>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-white/10 text-[10px] opacity-40">
+            🐈 每一秒的忍耐，都是為了以後能像貓一樣生活。
+        </div>
+    </div>
+
+    <script>
+        const targetDate = new Date("March 1, 2027 00:00:00").getTime();
+        const startDate = new Date("February 26, 2026 00:00:00").getTime();
+
+        const quotes = [
+            "工作只是為了餵飽家裡的主子。",
+            "這份薪水包含了一部分的吸貓醫藥費。",
+            "老闆沒你的日子也會過，但貓沒你的日子會寂寞。",
+            "再忍一下，你值得擁有整天在家吸貓的生活。",
+            "倒數是為了提醒自己，所有的痛苦都有終點。",
+            "想想看，2027 年 3 月你就可以整天陪貓了。"
+        ];
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.querySelector(".glass").innerHTML = "<h1 class='text-4xl font-bold'>🎉 你自由了！</h1><img src='https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueGZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/m4a2mKxU9B3YlO2Z4Y/giphy.gif' class='my-4 w-full'>";
+                return;
+            }
+
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = d.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+            document.getElementById("mins").innerText = m.toString().padStart(2, '0');
+            document.getElementById("secs").innerText = s.toString().padStart(2, '0');
+
+            const totalTime = targetDate - startDate;
+            const elapsedTime = now - startDate;
+            const progress = Math.min(Math.max((elapsedTime / totalTime) * 100, 0), 100);
+            document.getElementById("progress-bar").style.width = progress + "%";
+            document.getElementById("percent-text").innerText = progress.toFixed(4) + "%";
+        }
+
+        setInterval(() => {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById("quote").innerText = `「${randomQuote}」`;
+        }, 10000);
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
