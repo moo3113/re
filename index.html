@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2027.03.01 自由倒數</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;700&display=swap');
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            height: 100vh;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4">
+
+    <div class="glass w-full max-w-md rounded-3xl p-8 text-center text-white shadow-2xl">
+        <h1 class="text-sm uppercase tracking-[0.3em] opacity-80 mb-2">Freedom Countdown</h1>
+        <h2 class="text-3xl font-bold mb-6">離職登出日：2027.03.01</h2>
+
+        <div class="grid grid-cols-4 gap-2 mb-8">
+            <div class="bg-black/20 p-3 rounded-xl">
+                <span id="days" class="text-2xl font-bold block">00</span>
+                <span class="text-[10px] opacity-60">DAYS</span>
+            </div>
+            <div class="bg-black/20 p-3 rounded-xl">
+                <span id="hours" class="text-2xl font-bold block">00</span>
+                <span class="text-[10px] opacity-60">HRS</span>
+            </div>
+            <div class="bg-black/20 p-3 rounded-xl">
+                <span id="mins" class="text-2xl font-bold block">00</span>
+                <span class="text-[10px] opacity-60">MINS</span>
+            </div>
+            <div class="bg-black/20 p-3 rounded-xl">
+                <span id="secs" class="text-2xl font-bold block">00</span>
+                <span class="text-[10px] opacity-60">SECS</span>
+            </div>
+        </div>
+
+        <div class="mb-6 text-left">
+            <div class="flex justify-between text-xs mb-2 opacity-80">
+                <span>自由進度</span>
+                <span id="percent-text">0%</span>
+            </div>
+            <div class="w-full bg-white/10 h-3 rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-1000" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="min-h-[60px] flex items-center justify-center">
+            <p id="quote" class="text-sm italic opacity-90 leading-relaxed">「載入自由中...」</p>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-white/10 text-[10px] opacity-40">
+            Keep Calm and Countdown.
+        </div>
+    </div>
+
+    <script>
+        const targetDate = new Date("March 1, 2027 00:00:00").getTime();
+        const startDate = new Date("February 26, 2026 00:00:00").getTime(); // 以今天為起點
+
+        const quotes = [
+            "工作只是為了支撐你的興趣，不是你的全部。",
+            "這份薪水包含了一部分的忍耐費。",
+            "老闆沒你的日子也會過，但你沒老闆的日子會更好。",
+            "再忍一下，你值得擁有不用設鬧鐘的生活。",
+            "倒數是為了提醒自己，所有的痛苦都有終點。",
+            "未來的你在 2027 年 3 月等著你。"
+        ];
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // 計算時間
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = d.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+            document.getElementById("mins").innerText = m.toString().padStart(2, '0');
+            document.getElementById("secs").innerText = s.toString().padStart(2, '0');
+
+            // 計算進度
+            const totalTime = targetDate - startDate;
+            const elapsedTime = now - startDate;
+            const progress = Math.min(Math.max((elapsedTime / totalTime) * 100, 0), 100);
+            document.getElementById("progress-bar").style.width = progress + "%";
+            document.getElementById("percent-text").innerText = progress.toFixed(4) + "%";
+        }
+
+        // 每 10 秒換一句語錄
+        setInterval(() => {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById("quote").innerText = `「${randomQuote}」`;
+        }, 10000);
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
