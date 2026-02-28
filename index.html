@@ -31,14 +31,19 @@
             border-radius: 12px;
         }
 
-        /* 小人跑步動圖動畫控制 */
-        .person-runner-gif {
+        /* 穩定顯示跑步小人：使用 Emoji + CSS 動畫 */
+        .person-runner {
             position: absolute;
-            right: -10px; /* 調整小人位置 */
-            top: -55px; /* 調整小人高度 */
-            width: 50px; /* 小人動圖大小 */
-            height: 50px;
+            right: -10px; 
+            top: -45px; 
+            font-size: 40px; /* 小人大小 */
             transition: all 1s linear;
+            animation: run-bounce 0.6s infinite alternate; /* 模擬跑步跳動感 */
+        }
+
+        @keyframes run-bounce {
+            from { transform: translateY(0) rotate(-5deg); }
+            to { transform: translateY(-8px) rotate(5deg); }
         }
 
         .speech-bubble {
@@ -98,7 +103,7 @@
             </div>
             <div class="w-full bg-gray-200 h-4 rounded-full border-2 border-gray-400 relative">
                 <div id="progress-bar" class="h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full transition-all duration-1000" style="width: 0%">
-                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueGZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/3o72EX5QZ9N9d51dqo/giphy.gif" class="person-runner-gif" alt="Cartoon Person Running GIF">
+                    <div class="person-runner">🏃‍♂️</div>
                 </div>
             </div>
         </div>
@@ -132,7 +137,6 @@
             if (diff <= 0) {
                 document.querySelector(".cartoon-card").innerHTML = `
                     <div class="text-center p-10">
-                        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueGZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/m4a2mKxU9B3YlO2Z4Y/giphy.gif" class="w-32 h-32 mx-auto mb-4">
                         <h1 class='text-4xl font-bold text-gray-800'>🎉 你自由了！🐾</h1>
                         <p class='text-lg font-bold text-gray-600 mt-4'>恭喜解放成功！</p>
                     </div>
@@ -153,13 +157,13 @@
             document.getElementById("percent-text").innerText = progress.toFixed(5) + "%";
         }
 
-        setInterval(() => {
-            const q = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById("quote").innerText = `「${q}」`;
-        }, 12000);
+            setInterval(() => {
+                const q = quotes[Math.floor(Math.random() * quotes.length)];
+                document.getElementById("quote").innerText = `「${q}」`;
+            }, 12000);
 
-        setInterval(update, 1000);
-        update();
+            setInterval(update, 1000);
+            update();
     </script>
 </body>
 </html>
