@@ -10,17 +10,17 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mochiyopop+One&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mochiyopop+One&family=Noto+Sans+TC:wght@700;900&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+        * {
+            font-family: 'Mochiyopop One', 'Noto Sans TC', sans-serif !important;
+        }
         
         body {
-            /* 套用可愛字體 */
-            font-family: 'Mochiyopop One', 'Noto Sans TC', sans-serif;
             background-image: url('BG.jpg');
             background-size: cover;
             background-position: center;
@@ -36,51 +36,66 @@
         }
 
         .cartoon-card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 4px solid #333;
-            border-radius: 30px;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.15);
+            border: 4px solid #4A3728;
+            border-radius: 35px;
+            box-shadow: 10px 10px 0px rgba(74, 55, 40, 0.15);
         }
 
+        /* --- 現在時間專屬樣式 --- */
+        .current-status-bar {
+            background: #4A3728;
+            color: #FFF;
+            border-radius: 20px;
+            padding: 8px 16px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+        }
+
+        /* 倒數盒子維持原本樣式 */
         .time-box {
             background: #fdf6e3;
             border: 2px solid #333;
             border-radius: 12px;
         }
+        .time-box span {
+            color: #374151;
+        }
 
         .speech-bubble {
-            background: #fff9db;
-            border: 2px solid #333;
-            border-radius: 15px;
+            background: #FFFBE6;
+            border: 3px solid #4A3728;
+            border-radius: 20px;
             position: relative;
         }
 
         .video-container {
             width: 100%;
-            border-radius: 20px;
-            border: 2px solid #eee;
+            border-radius: 25px;
+            border: 3px solid #4A3728;
             overflow: hidden;
             background: #fff;
         }
 
-        /* 讓數字等寬，避免時鐘跳動 */
         .tabular-nums {
             font-variant-numeric: tabular-nums;
         }
 
-        /* 25號特別標記：粉紫色呼吸動畫 */
         .celebrate-text {
-            color: #ff69b4 !important;
-            animation: pulse 1.5s infinite;
-            font-weight: bold;
+            color: #FF1493 !important;
+            text-shadow: 1px 1px 0px #FFF;
+            animation: pulse-cute 0.8s infinite alternate;
+            display: inline-block;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        @keyframes pulse-cute {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
         }
     </style>
 </head>
@@ -88,44 +103,50 @@
 
     <div class="cartoon-card w-full max-w-md p-8 text-center relative mx-4">
         
-        <div class="flex justify-center mb-4 video-container">
+        <div class="current-status-bar">
+            <div id="current-date" class="text-[10px] tracking-widest opacity-80 mb-0.5">LOADING...</div>
+            <div class="flex items-center gap-2">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                <div id="current-time" class="text-2xl font-black tabular-nums tracking-wider">00:00:00</div>
+            </div>
+        </div>
+
+        <div class="flex justify-center mb-6 video-container">
             <video autoplay loop muted playsinline class="w-full h-auto">
                 <source src="輪流探頭動圖製作完成.mp4" type="video/mp4">
                 你的瀏覽器不支援影片播放。
             </video>
         </div>
 
-        <div class="mb-4">
-            <div id="current-date" class="text-[12px] font-bold text-gray-500 tracking-widest">2026.03.01 SUNDAY</div>
-            <div id="current-time" class="text-4xl font-black text-gray-800 tabular-nums">00:00:00</div>
-        </div>
-
-        <h1 class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1 font-bold">Freedom Countdown</h1>
-        <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b-2 border-gray-100 pb-2">自由解放日：2027.03.01</h2>
+        <h1 class="text-[10px] uppercase tracking-[0.3em] text-stone-400 mb-1 font-bold">Freedom Countdown</h1>
+        <h2 class="text-2xl font-bold mb-6 text-sky-800 border-b-4 border-yellow-200 pb-2">自由解放日：2027.03.01</h2>
 
         <div class="grid grid-cols-4 gap-2 mb-8">
-            <div class="time-box p-2"><span id="days" class="text-2xl font-black block text-gray-700">00</span><span class="text-[10px] font-bold opacity-60 text-gray-500">天</span></div>
-            <div class="time-box p-2"><span id="hours" class="text-2xl font-black block text-gray-700">00</span><span class="text-[10px] font-bold opacity-60 text-gray-500">時</span></div>
-            <div class="time-box p-2"><span id="mins" class="text-2xl font-black block text-gray-700">00</span><span class="text-[10px] font-bold opacity-60 text-gray-500">分</span></div>
-            <div class="time-box p-2"><span id="secs" class="text-2xl font-black block text-gray-700">00</span><span class="text-[10px] font-bold opacity-60 text-gray-500">秒</span></div>
+            <div class="time-box p-2"><span id="days" class="text-3xl font-black block">00</span><span class="text-[10px] font-bold opacity-60">天</span></div>
+            <div class="time-box p-2"><span id="hours" class="text-3xl font-black block">00</span><span class="text-[10px] font-bold opacity-60">時</span></div>
+            <div class="time-box p-2"><span id="mins" class="text-3xl font-black block">00</span><span class="text-[10px] font-bold opacity-60">分</span></div>
+            <div class="time-box p-2"><span id="secs" class="text-3xl font-black block">00</span><span class="text-[10px] font-bold opacity-60">秒</span></div>
         </div>
 
         <div class="mb-10 text-left relative px-2">
-            <div class="flex justify-between text-[11px] mb-2 font-bold text-gray-600">
-                <span>自由進度</span>
-                <span id="percent-text">0%</span>
+            <div class="flex justify-between text-[13px] mb-2 font-bold text-orange-600">
+                <span>🐾 自由進度達標</span>
+                <span id="percent-text" class="text-orange-700">0%</span>
             </div>
-            <div class="w-full bg-gray-200 h-4 rounded-full border-2 border-gray-400 relative">
-                <div id="progress-bar" class="h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full transition-all duration-1000" style="width: 0%"></div>
+            <div class="w-full bg-stone-200 h-5 rounded-full border-2 border-stone-400 relative overflow-hidden">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full transition-all duration-1000" style="width: 0%"></div>
             </div>
         </div>
 
-        <div class="min-h-[80px] flex items-center justify-center speech-bubble p-4 text-center">
-            <p id="quote" class="text-sm font-bold leading-relaxed text-gray-700">「正在載入自由...🐾」</p>
+        <div class="min-h-[90px] flex items-center justify-center speech-bubble p-4 text-center">
+            <p id="quote" class="text-[15px] font-bold leading-relaxed text-slate-700">「正在載入自由...🐾」</p>
         </div>
 
-        <div class="mt-8 pt-4 text-[11px] text-gray-400 font-bold">
-            🐈 自由倒數中，自由的空氣就在眼前！🐾
+        <div class="mt-8 pt-4 text-[12px] text-stone-400 font-bold">
+            🐈 每一秒都在朝自由狂奔 🐈
         </div>
     </div>
 
@@ -149,17 +170,16 @@
             const nowTime = now.getTime();
             const diff = targetDate - nowTime;
 
-            // 更新現在時間顯示
-            const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'long' }).toUpperCase();
-            document.getElementById("current-date").innerText = dateStr;
+            // 更新時間日期
+            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
+            document.getElementById("current-date").innerText = now.toLocaleDateString('zh-TW', dateOptions);
             document.getElementById("current-time").innerText = now.toTimeString().split(' ')[0];
 
-            // --- 25號發薪日邏輯 ---
+            // 25號發薪日
             const quoteEl = document.getElementById("quote");
             if (now.getDate() === 25) {
                 quoteEl.classList.add("celebrate-text");
                 quoteEl.innerText = "✨ 薪水入帳，忍耐費已續約 ✨";
-                
                 if (!hasConfettiShown) {
                     launchConfetti();
                     hasConfettiShown = true;
@@ -182,47 +202,39 @@
             const total = targetDate - startDate;
             const elapsed = nowTime - startDate;
             const progress = Math.min(Math.max((elapsed / total) * 100, 0), 100);
-            
             document.getElementById("progress-bar").style.width = progress + "%";
             document.getElementById("percent-text").innerText = progress.toFixed(5) + "%";
         }
 
-        // 灑花特效函式
         function launchConfetti() {
-            var duration = 3 * 1000;
+            var duration = 4 * 1000;
             var end = Date.now() + duration;
-
             (function frame() {
                 confetti({
                     particleCount: 5,
                     angle: 60,
-                    spread: 55,
+                    spread: 60,
                     origin: { x: 0, y: 0.8 },
-                    colors: ['#FFC0CB', '#FF69B4', '#FFD700', '#FFFFFF']
+                    colors: ['#FFC0CB', '#FF69B4', '#FFD700', '#00D2FF', '#FFFFFF']
                 });
                 confetti({
                     particleCount: 5,
                     angle: 120,
-                    spread: 55,
+                    spread: 60,
                     origin: { x: 1, y: 0.8 },
-                    colors: ['#FFC0CB', '#FF69B4', '#FFD700', '#FFFFFF']
+                    colors: ['#FFC0CB', '#FF69B4', '#FFD700', '#00D2FF', '#FFFFFF']
                 });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
+                if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
 
-        // 每 5 秒換一次金句 (25號不切換)
         setInterval(() => {
             if (new Date().getDate() !== 25) {
                 const q = quotes[Math.floor(Math.random() * quotes.length)];
                 document.getElementById("quote").innerText = `「${q}」`;
             }
-        }, 5000);
+        }, 8000);
 
-        // 每秒更新時鐘與倒數
         setInterval(update, 1000);
         update();
     </script>
