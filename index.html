@@ -7,9 +7,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+        
         body {
             font-family: 'Noto Sans TC', sans-serif;
-            background: #87CEEB; /* 自由的天藍色 */
+            /* 卡通風格藍天白雲背景 (純 CSS) */
+            background-color: #87CEEB; /* 天藍色底 */
+            background-image: 
+                radial-gradient(circle at 20% 30%, #fff, transparent 15%),
+                radial-gradient(circle at 30% 25%, #fff, transparent 15%),
+                radial-gradient(circle at 25% 35%, #fff, transparent 15%),
+                radial-gradient(circle at 70% 60%, #fff, transparent 20%),
+                radial-gradient(circle at 80% 55%, #fff, transparent 20%),
+                radial-gradient(circle at 75% 65%, #fff, transparent 20%);
+            background-size: 150px 150px, 150px 150px, 150px 150px, 200px 200px, 200px 200px, 200px 200px;
+            background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+            animation: cloud-drift 60s linear infinite;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -18,32 +30,22 @@
             overflow: hidden;
         }
 
+        @keyframes cloud-drift {
+            from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; }
+            to { background-position: 150px 0, 150px 0, 150px 0, 200px 0, 200px 0, 200px 0; }
+        }
+
         .cartoon-card {
             background: rgba(255, 255, 255, 0.95);
             border: 4px solid #333;
             border-radius: 30px;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.15);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
         }
 
         .time-box {
             background: #fdf6e3;
             border: 2px solid #333;
             border-radius: 12px;
-        }
-
-        /* 穩定顯示跑步小人：使用 Emoji + CSS 動畫 */
-        .person-runner {
-            position: absolute;
-            right: -10px; 
-            top: -45px; 
-            font-size: 40px; /* 小人大小 */
-            transition: all 1s linear;
-            animation: run-bounce 0.6s infinite alternate; /* 模擬跑步跳動感 */
-        }
-
-        @keyframes run-bounce {
-            from { transform: translateY(0) rotate(-5deg); }
-            to { transform: translateY(-8px) rotate(5deg); }
         }
 
         .speech-bubble {
@@ -98,12 +100,11 @@
 
         <div class="mb-10 text-left relative px-2">
             <div class="flex justify-between text-[11px] mb-2 font-bold text-gray-600">
-                <span>自由進度（奮力奔跑中）</span>
+                <span>自由進度</span>
                 <span id="percent-text">0%</span>
             </div>
             <div class="w-full bg-gray-200 h-4 rounded-full border-2 border-gray-400 relative">
                 <div id="progress-bar" class="h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full transition-all duration-1000" style="width: 0%">
-                    <div class="person-runner">🏃‍♂️</div>
                 </div>
             </div>
         </div>
@@ -113,7 +114,7 @@
         </div>
 
         <div class="mt-8 pt-4 text-[11px] text-gray-400 font-bold">
-            🚶‍♂️ 看到小人奮力奔跑，自由就在眼前！🐈🐾
+            ☁️ 藍天白雲，自由就在眼前！🐈🐾
         </div>
     </div>
 
