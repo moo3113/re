@@ -14,14 +14,12 @@
         
         body {
             font-family: 'Noto Sans TC', sans-serif;
-            /* 背景圖片設定 */
             background-image: url('BG.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-color: #87CEEB;
-            
             height: 100vh;
             display: flex;
             align-items: center;
@@ -31,7 +29,6 @@
         }
 
         .cartoon-card {
-            /* 磨砂玻璃效果：白色背景 90% 不透明 + 模糊感 */
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -53,13 +50,17 @@
             position: relative;
         }
 
-        /* 影片容器 */
         .video-container {
             width: 100%;
             border-radius: 20px;
             border: 2px solid #eee;
             overflow: hidden;
             background: #fff;
+        }
+
+        /* 讓數字等寬，避免時鐘跳動 */
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
         }
     </style>
 </head>
@@ -72,6 +73,11 @@
                 <source src="輪流探頭動圖製作完成.mp4" type="video/mp4">
                 你的瀏覽器不支援影片播放。
             </video>
+        </div>
+
+        <div class="mb-4">
+            <div id="current-date" class="text-[12px] font-bold text-gray-500 tracking-widest">2026.03.01 SUNDAY</div>
+            <div id="current-time" class="text-4xl font-black text-gray-800 tabular-nums">00:00:00</div>
         </div>
 
         <h1 class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1 font-bold">Freedom Countdown</h1>
@@ -99,7 +105,7 @@
         </div>
 
         <div class="mt-8 pt-4 text-[11px] text-gray-400 font-bold">
-            🐈 自由倒數中，自由的空氣就在眼前！🐾
+            🐈 freedom倒數中，自由的空氣就在眼前！🐾
         </div>
     </div>
 
@@ -117,8 +123,14 @@
         ];
 
         function update() {
-            const now = new Date().getTime();
-            const diff = targetDate - now;
+            const now = new Date();
+            const nowTime = now.getTime();
+            const diff = targetDate - nowTime;
+
+            // 更新現在時間顯示
+            const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'long' }).toUpperCase();
+            document.getElementById("current-date").innerText = dateStr;
+            document.getElementById("current-time").innerText = now.toTimeString().split(' ')[0];
 
             if (diff <= 0) {
                 document.querySelector(".cartoon-card").innerHTML = "<h1 class='text-4xl font-bold p-10 text-gray-800 text-center'>🎉 你自由了！🐾</h1>";
@@ -131,18 +143,20 @@
             document.getElementById("secs").innerText = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2,'0');
 
             const total = targetDate - startDate;
-            const elapsed = now - startDate;
+            const elapsed = nowTime - startDate;
             const progress = Math.min(Math.max((elapsed / total) * 100, 0), 100);
             
             document.getElementById("progress-bar").style.width = progress + "%";
             document.getElementById("percent-text").innerText = progress.toFixed(5) + "%";
         }
 
+        // 每 5 秒換一次金句
         setInterval(() => {
             const q = quotes[Math.floor(Math.random() * quotes.length)];
             document.getElementById("quote").innerText = `「${q}」`;
         }, 5000);
 
+        // 每秒更新時鐘與倒數
         setInterval(update, 1000);
         update();
     </script>
