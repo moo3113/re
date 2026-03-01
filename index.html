@@ -19,7 +19,7 @@
     <style>
         * {
             font-family: 'Zen Maru Gothic', sans-serif !important;
-            letter-spacing: 0.12em; /* 極寬字距，日本高級感 */
+            letter-spacing: 0.08em;
         }
         
         body {
@@ -37,120 +37,128 @@
             overflow: hidden;
         }
 
-        /* 磨砂玻璃卡片：日系清透感 */
         .glass-card {
-            background: rgba(255, 255, 255, 0.7); 
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.88); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
             border-radius: 40px;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.05);
-            padding: 45px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.12);
+            padding: 40px;
             color: #444;
             max-width: 400px;
             width: 90%;
             position: relative;
         }
 
-        /* 現在時間：極致纖細 */
         .header-section {
             text-align: left;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding-bottom: 25px;
-            margin-bottom: 30px;
+            border-bottom: 2px solid #f1f2f6;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         #current-time {
-            font-size: 3.2rem;
+            font-size: 3rem;
             font-weight: 300;
-            color: #222;
-            letter-spacing: -0.05em;
+            color: #2d3436;
+            letter-spacing: -0.02em;
             line-height: 1;
         }
 
         #current-date {
-            font-size: 10px;
-            color: #999;
+            font-size: 11px;
+            color: #a4b0be;
             text-transform: uppercase;
-            margin-top: 5px;
+            margin-top: 8px;
+            font-weight: 700;
         }
 
-        /* 影片容器：不再有厚重邊框 */
         .video-wrapper {
             width: 100%;
-            border-radius: 20px;
+            border-radius: 25px;
             overflow: hidden;
-            margin-bottom: 35px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            background: #000;
         }
 
-        /* 倒數區域：不對稱排版，更有設計感 */
         .countdown-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 35px;
+            gap: 10px;
+            margin-bottom: 30px;
         }
 
         .count-item {
             text-align: center;
+            background: #ffffff;
+            padding: 12px 0;
+            border-radius: 15px;
+            border: 1px solid #f1f2f6;
         }
 
         .count-item span:first-child {
             font-size: 1.8rem;
             font-weight: 900;
-            color: #333;
+            color: #0984e3; 
             display: block;
             line-height: 1;
         }
 
         .count-item span:last-child {
-            font-size: 9px;
-            color: #A5A5A5;
-            font-weight: 700;
+            font-size: 10px;
+            color: #636e72;
+            font-weight: 900;
             margin-top: 5px;
             display: block;
         }
 
-        /* 精緻進度條：呼吸感點狀線 */
         .progress-meta {
-            font-size: 9px;
-            color: #CCC;
+            font-size: 10px;
+            color: #2d3436;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-weight: 900;
         }
 
         .progress-line-container {
-            height: 2px;
-            background: rgba(0, 0, 0, 0.03);
+            height: 6px;
+            background: #f1f2f6;
             width: 100%;
             position: relative;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         .progress-line-active {
-            height: 2px;
-            background: #B49667; /* 晨曦金 */
+            height: 100%;
+            background: linear-gradient(to right, #fab1a0, #ff7675); 
             position: absolute;
             left: 0; top: 0;
             transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* 對白：像詩一樣安靜 */
         .quote-box {
-            margin-top: 35px;
+            margin-top: 30px;
             text-align: left;
             font-size: 14px;
-            color: #666;
-            font-weight: 300;
-            line-height: 2;
-            padding-left: 15px;
-            border-left: 1px solid #B49667;
+            color: #2d3436;
+            font-weight: 500;
+            line-height: 1.6;
+            padding: 15px 20px;
+            background: #f9f9f9;
+            border-radius: 15px;
+            border-left: 4px solid #ff7675;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
         }
 
         .celebrate-mode {
-            color: #B49667 !important;
-            font-weight: 700;
+            color: #d63031 !important;
+            font-weight: 900;
         }
     </style>
 </head>
@@ -164,22 +172,22 @@
         </div>
 
         <div class="video-wrapper">
-            <video autoplay loop muted playsinline class="w-full h-auto opacity-95">
+            <video autoplay loop muted playsinline class="w-full h-auto">
                 <source src="輪流探頭動圖製作完成.mp4" type="video/mp4">
             </video>
         </div>
 
         <div class="countdown-grid">
-            <div class="count-item"><span id="days">00</span><span>DAYS</span></div>
-            <div class="count-item"><span id="hours">00</span><span>HRS</span></div>
-            <div class="count-item"><span id="mins">00</span><span>MINS</span></div>
-            <div class="count-item"><span id="secs">00</span><span>SECS</span></div>
+            <div class="count-item shadow-sm"><span id="days">00</span><span>DAYS</span></div>
+            <div class="count-item shadow-sm"><span id="hours">00</span><span>HRS</span></div>
+            <div class="count-item shadow-sm"><span id="mins">00</span><span>MINS</span></div>
+            <div class="count-item shadow-sm"><span id="secs">00</span><span>SECS</span></div>
         </div>
 
         <div class="px-1">
             <div class="progress-meta">
-                <span>STAY FREE</span>
-                <span id="percent-text">0.00000%</span>
+                <span>🐾 自由進度</span>
+                <span id="percent-text" class="text-rose-500">0.00000%</span>
             </div>
             <div class="progress-line-container">
                 <div id="progress-bar" class="progress-line-active" style="width: 0%"></div>
@@ -187,11 +195,11 @@
         </div>
 
         <div class="quote-box">
-            <p id="quote">靜候自由的氣息。</p>
+            <p id="quote">正在讀取自由數據...</p>
         </div>
 
-        <div class="mt-10 text-[8px] text-gray-300 tracking-[0.6em] uppercase text-center">
-            Breath . Cat . Freedom
+        <div class="mt-10 text-[9px] text-gray-400 tracking-[0.4em] uppercase text-center font-bold">
+            Stay Calm . Cat . Freedom
         </div>
     </div>
 
@@ -200,12 +208,12 @@
         const startDate = new Date("February 26, 2026 00:00:00").getTime();
 
         const quotes = [
-            "工作是為了吸貓，不是全部。",
+            "工作只是為了支撐你的貓咪跟遊戲，不是全部。",
             "這份薪水包含了一部分的忍耐費。",
-            "每天學著放過自己，你已經很棒了。",
+            "每天上班都學著放過自己，你已經很棒了!!。",
             "再忍一下，休息是為了以後走更遠的路。",
-            "所有的痛苦都有終點。",
-            "未來的你在 2027 年等待著。"
+            "倒數是為了提醒自己，所有的痛苦都有終點。",
+            "未來的你在 2027 年 3 月等著你。"
         ];
 
         let hasConfettiShown = false;
@@ -217,12 +225,12 @@
 
             document.getElementById("current-time").innerText = now.toTimeString().split(' ')[0];
             const options = { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' };
-            document.getElementById("current-date").innerText = now.toLocaleDateString('zh-TW', options).replace(/\//g, ' / ');
+            document.getElementById("current-date").innerText = now.toLocaleDateString('zh-TW', options).replace(/\//g, ' . ');
 
             const quoteEl = document.getElementById("quote");
             if (now.getDate() === 25) {
                 quoteEl.classList.add("celebrate-mode");
-                quoteEl.innerText = "本月忍耐費已結清。辛苦了。";
+                quoteEl.innerText = "✨ 本月忍耐費已入帳，辛苦了！ ✨";
                 if (!hasConfettiShown) {
                     launchConfetti();
                     hasConfettiShown = true;
@@ -233,7 +241,7 @@
             }
 
             if (diff <= 0) {
-                document.querySelector(".glass-card").innerHTML = "<h1 class='text-xl font-light p-10 text-center'>Free.</h1>";
+                document.querySelector(".glass-card").innerHTML = "<h1 class='text-2xl font-black p-10 text-center text-rose-500'>終於，自由了！🐾</h1>";
                 return;
             }
 
@@ -250,13 +258,13 @@
         }
 
         function launchConfetti() {
-            confetti({ particleCount: 20, spread: 80, origin: { y: 0.8 }, colors: ['#B49667', '#FFFFFF'] });
+            confetti({ particleCount: 60, spread: 80, origin: { y: 0.8 }, colors: ['#ff7675', '#0984e3', '#ffffff'] });
         }
 
         setInterval(() => {
             if (new Date().getDate() !== 25) {
                 const q = quotes[Math.floor(Math.random() * quotes.length)];
-                document.getElementById("quote").innerText = q;
+                document.getElementById("quote").innerText = `「${q}」`;
             }
         }, 8000);
 
