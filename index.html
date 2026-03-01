@@ -10,15 +10,14 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&family=Caveat:wght@700&family=Noto+Sans+TC:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Ma+Shan+Zheng&family=Noto+Sans+TC:wght@900&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
-        /* 全域設定：主要文字用黃油體，英文輔助用手寫體 */
         * {
-            font-family: 'ZCOOL QingKe HuangYou', 'Noto Sans TC', sans-serif !important;
+            font-family: 'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif !important;
         }
         
         body {
@@ -37,7 +36,7 @@
         }
 
         .cartoon-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 5px solid #4A3728;
@@ -45,34 +44,57 @@
             box-shadow: 12px 12px 0px rgba(74, 55, 40, 0.2);
         }
 
-        /* 現在時間標籤 */
-        .current-status-bar {
-            background: #4A3728;
-            color: #FFF;
-            border-radius: 25px;
-            padding: 8px 20px;
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+        /* --- 更有趣的現在時間：電子儀表板風格 --- */
+        .system-time-box {
+            background: #2D241E;
+            color: #FFD700; /* 金色文字 */
+            border-radius: 20px;
+            padding: 12px 25px;
+            border: 3px solid #4A3728;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            display: inline-block;
+            margin-bottom: 25px;
+            position: relative;
         }
 
-        /* 倒數盒子：黃油體數字會呈現非常圓潤的幾何感 */
+        .system-tag {
+            position: absolute;
+            top: -12px;
+            right: 15px;
+            background: #FF4757;
+            color: white;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 5px;
+            letter-spacing: 1px;
+            font-weight: bold;
+            box-shadow: 2px 2px 0px #4A3728;
+        }
+
+        /* --- 倒數盒子：解決置中問題 --- */
         .time-box {
             background: #fdf6e3;
             border: 3px solid #4A3728;
             border-radius: 20px;
+            aspect-ratio: 1 / 1; /* 確保是正方形 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
         }
+
         .time-box span:first-child {
             color: #4A3728;
-            letter-spacing: 1px;
+            line-height: 1;
+            margin-bottom: 2px;
         }
 
         .time-unit {
+            font-family: 'Ma Shan Zheng', cursive !important;
             color: #8B5E3C;
-            font-size: 15px;
-            opacity: 0.8;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         .speech-bubble {
@@ -90,24 +112,16 @@
             background: #fff;
         }
 
-        /* 25號發薪日專屬字體特效 */
         .celebrate-text {
             color: #FF1493 !important;
             text-shadow: 2px 2px 0px #FFF;
-            font-size: 1.2rem;
             animation: bounce-cute 0.6s infinite alternate;
             display: inline-block;
         }
 
         @keyframes bounce-cute {
-            from { transform: scale(1) translateY(0); }
-            to { transform: scale(1.05) translateY(-5px); }
-        }
-
-        .english-sub {
-            font-family: 'Caveat', cursive !important;
-            font-size: 1.2rem;
-            color: #9CA3AF;
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
         }
     </style>
 </head>
@@ -115,14 +129,11 @@
 
     <div class="cartoon-card w-full max-w-md p-8 text-center relative mx-4">
         
-        <div class="current-status-bar">
-            <div id="current-date" class="text-[14px] font-bold text-stone-300 mb-1">LOADING...</div>
-            <div class="flex items-center gap-3">
-                <span class="relative flex h-3 w-3">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                </span>
-                <div id="current-time" class="text-3xl font-black text-[#FFF] tracking-widest tabular-nums">00:00:00</div>
+        <div class="system-time-box">
+            <span class="system-tag">LIVE NOW</span>
+            <div id="current-date" class="text-[11px] font-bold opacity-70 mb-1 tracking-tighter">LOADING...</div>
+            <div class="flex items-center justify-center gap-3">
+                <div id="current-time" class="text-3xl font-black tracking-widest tabular-nums">00:00:00</div>
             </div>
         </div>
 
@@ -132,20 +143,17 @@
             </video>
         </div>
 
-        <div class="mb-6">
-            <h1 class="english-sub">Freedom Countdown</h1>
-            <h2 class="text-3xl font-black text-sky-800 border-b-4 border-yellow-300 pb-1 inline-block">自由解放日：2027.03.01</h2>
-        </div>
+        <h2 class="text-2xl font-black mb-6 text-sky-800 border-b-4 border-yellow-300 pb-1 inline-block">自由解放：2027.03.01</h2>
 
         <div class="grid grid-cols-4 gap-3 mb-8">
-            <div class="time-box p-3 shadow-md"><span id="days" class="text-4xl font-black block">00</span><span class="time-unit">天</span></div>
-            <div class="time-box p-3 shadow-md"><span id="hours" class="text-4xl font-black block">00</span><span class="time-unit">時</span></div>
-            <div class="time-box p-3 shadow-md"><span id="mins" class="text-4xl font-black block">00</span><span class="time-unit">分</span></div>
-            <div class="time-box p-3 shadow-md"><span id="secs" class="text-4xl font-black block">00</span><span class="time-unit">秒</span></div>
+            <div class="time-box shadow-md"><span id="days" class="text-4xl font-black">00</span><span class="time-unit">天</span></div>
+            <div class="time-box shadow-md"><span id="hours" class="text-4xl font-black">00</span><span class="time-unit">時</span></div>
+            <div class="time-box shadow-md"><span id="mins" class="text-4xl font-black">00</span><span class="time-unit">分</span></div>
+            <div class="time-box shadow-md"><span id="secs" class="text-4xl font-black">00</span><span class="time-unit">秒</span></div>
         </div>
 
         <div class="mb-10 text-left relative px-2">
-            <div class="flex justify-between text-[16px] mb-2 font-black text-orange-600">
+            <div class="flex justify-between text-[15px] mb-2 font-black text-orange-600">
                 <span>🐾 自由進度</span>
                 <span id="percent-text" class="text-orange-700">0%</span>
             </div>
@@ -155,11 +163,11 @@
         </div>
 
         <div class="min-h-[100px] flex items-center justify-center speech-bubble p-5 text-center shadow-inner">
-            <p id="quote" class="text-[1.2rem] font-bold leading-relaxed text-slate-700">「正在載入自由...🐾」</p>
+            <p id="quote" class="text-[17px] font-bold leading-relaxed text-slate-700">「正在載入自由...🐾」</p>
         </div>
 
-        <div class="mt-8 pt-4 text-[15px] text-stone-400 font-bold italic">
-            🐈 Just keep swimming, Freedom is coming! 🐈
+        <div class="mt-8 pt-4 text-[13px] text-stone-400 font-bold italic">
+            🐈 每一秒鐘，都在變回自由的貓 🐈
         </div>
     </div>
 
