@@ -7,25 +7,23 @@
     
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="自由倒數">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bakudai&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;500;700;900&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
-        /* 標題與單位使用書法感字體，數字使用圓體 */
         * {
             font-family: 'Zen Maru Gothic', sans-serif !important;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.12em; /* 極寬字距，日本高級感 */
         }
         
         body {
-            background-color: #e8e4da; /* 傳統和紙色 */
+            background-color: #f4f4f4;
             background-image: url('BG.jpg');
             background-size: cover;
             background-position: center;
@@ -39,146 +37,161 @@
             overflow: hidden;
         }
 
-        /* 調整：紮實的宣紙質感卡片 */
-        .ukiyo-card {
-            background: #fdfcf8; /* 極紮實的乳白色 */
-            border: 4px solid #2d3436; /* 濃墨色邊框 */
-            border-radius: 10px; /* 較小的圓角，更有古代卷軸感 */
-            box-shadow: 15px 15px 0px rgba(45, 52, 70, 0.1);
-            padding: 35px;
-            color: #2d3436;
+        /* 磨砂玻璃卡片：日系清透感 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7); 
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 40px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.05);
+            padding: 45px;
+            color: #444;
+            max-width: 400px;
+            width: 90%;
             position: relative;
         }
 
-        /* 朱紅色落款標籤：就像浮世繪上的印章 */
-        .stamp-tag {
-            background: #d63031; /* 朱砂紅 */
-            color: #ffffff;
-            padding: 5px 15px;
-            font-weight: 900;
-            display: inline-block;
-            margin-bottom: 20px;
-            writing-mode: horizontal-tb;
-            box-shadow: 2px 2px 0px #000;
+        /* 現在時間：極致纖細 */
+        .header-section {
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: 25px;
+            margin-bottom: 30px;
         }
 
-        /* 倒數盒子：方塊感與水墨邊框 */
-        .time-box {
-            background: #ffffff;
-            border: 2px solid #2d3436;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            aspect-ratio: 1 / 1;
-            position: relative;
-        }
-        .time-box::after {
-            content: '';
-            position: absolute;
-            top: 2px; left: 2px; right: -4px; bottom: -4px;
-            border: 1px solid rgba(0,0,0,0.1);
-            z-index: -1;
-        }
-
-        .time-box span:first-child {
-            color: #2d3436;
-            font-size: 2.2rem;
-            font-weight: 900;
+        #current-time {
+            font-size: 3.2rem;
+            font-weight: 300;
+            color: #222;
+            letter-spacing: -0.05em;
             line-height: 1;
         }
 
-        .time-unit {
-            font-family: 'Bakudai', serif !important; /* 書法體單位 */
-            font-size: 14px;
-            color: #d63031;
+        #current-date {
+            font-size: 10px;
+            color: #999;
+            text-transform: uppercase;
             margin-top: 5px;
-            font-weight: 900;
         }
 
-        .video-container {
+        /* 影片容器：不再有厚重邊框 */
+        .video-wrapper {
             width: 100%;
-            border: 3px solid #2d3436;
+            border-radius: 20px;
             overflow: hidden;
-            background: #000;
-            margin-bottom: 25px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
 
-        /* 進度條：水墨刷過感 */
-        .progress-outer {
-            height: 12px;
-            background: #eee;
-            border: 2px solid #2d3436;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-        .progress-inner {
-            height: 100%;
-            background: #2d3436; /* 純墨色進度 */
-            transition: width 1s ease-in-out;
+        /* 倒數區域：不對稱排版，更有設計感 */
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 35px;
         }
 
-        .quote-bubble {
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
-            padding: 15px 0;
-            margin-top: 20px;
-            font-size: 15px;
-            color: #636e72;
+        .count-item {
+            text-align: center;
+        }
+
+        .count-item span:first-child {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #333;
+            display: block;
+            line-height: 1;
+        }
+
+        .count-item span:last-child {
+            font-size: 9px;
+            color: #A5A5A5;
             font-weight: 700;
+            margin-top: 5px;
+            display: block;
         }
 
-        .celebrate-text {
-            color: #d63031 !important;
-            font-style: normal;
-            border: 1px solid #d63031;
-            padding: 2px 5px;
+        /* 精緻進度條：呼吸感點狀線 */
+        .progress-meta {
+            font-size: 9px;
+            color: #CCC;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-line-container {
+            height: 2px;
+            background: rgba(0, 0, 0, 0.03);
+            width: 100%;
+            position: relative;
+        }
+
+        .progress-line-active {
+            height: 2px;
+            background: #B49667; /* 晨曦金 */
+            position: absolute;
+            left: 0; top: 0;
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* 對白：像詩一樣安靜 */
+        .quote-box {
+            margin-top: 35px;
+            text-align: left;
+            font-size: 14px;
+            color: #666;
+            font-weight: 300;
+            line-height: 2;
+            padding-left: 15px;
+            border-left: 1px solid #B49667;
+        }
+
+        .celebrate-mode {
+            color: #B49667 !important;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
 
-    <div class="ukiyo-card w-full max-w-sm text-center mx-4">
+    <div class="glass-card">
         
-        <div class="stamp-tag">
-            <span id="current-time" class="text-2xl tabular-nums">00:00:00</span>
+        <div class="header-section">
+            <div id="current-time">00:00:00</div>
+            <div id="current-date">LOADING...</div>
         </div>
-        <div id="current-date" class="text-[12px] font-bold text-gray-400 mb-6">LOADING...</div>
 
-        <div class="video-container shadow-md">
-            <video autoplay loop muted playsinline class="w-full h-auto">
+        <div class="video-wrapper">
+            <video autoplay loop muted playsinline class="w-full h-auto opacity-95">
                 <source src="輪流探頭動圖製作完成.mp4" type="video/mp4">
             </video>
         </div>
 
-        <div class="text-left mb-6">
-            <h2 class="text-[10px] font-bold text-gray-400 tracking-[0.3em] uppercase mb-1">— 自由。猫</h2>
-            <h3 class="text-xl font-black text-gray-800" style="font-family: 'Bakudai', serif !important;">二零二七年三月一日 解放</h3>
+        <div class="countdown-grid">
+            <div class="count-item"><span id="days">00</span><span>DAYS</span></div>
+            <div class="count-item"><span id="hours">00</span><span>HRS</span></div>
+            <div class="count-item"><span id="mins">00</span><span>MINS</span></div>
+            <div class="count-item"><span id="secs">00</span><span>SECS</span></div>
         </div>
 
-        <div class="grid grid-cols-4 gap-2 mb-8">
-            <div class="time-box shadow-sm"><span id="days">00</span><span class="time-unit">日</span></div>
-            <div class="time-box shadow-sm"><span id="hours">00</span><span class="time-unit">時</span></div>
-            <div class="time-box shadow-sm"><span id="mins">00</span><span class="time-unit">分</span></div>
-            <div class="time-box shadow-sm"><span id="secs">00</span><span class="time-unit">秒</span></div>
-        </div>
-
-        <div class="px-1 text-left">
-            <div class="flex justify-between text-[11px] font-bold text-gray-500 mb-1">
-                <span>進度自律</span>
-                <span id="percent-text" class="text-red-600">0%</span>
+        <div class="px-1">
+            <div class="progress-meta">
+                <span>STAY FREE</span>
+                <span id="percent-text">0.00000%</span>
             </div>
-            <div class="progress-outer">
-                <div id="progress-bar" class="progress-inner" style="width: 0%"></div>
+            <div class="progress-line-container">
+                <div id="progress-bar" class="progress-line-active" style="width: 0%"></div>
             </div>
         </div>
 
-        <div class="quote-bubble">
-            <p id="quote">正在參悟自由之道...</p>
+        <div class="quote-box">
+            <p id="quote">靜候自由的氣息。</p>
         </div>
 
-        <div class="mt-8 text-[11px] text-gray-300 font-bold italic tracking-[0.2em]">
-            🐈 自由とは、己の道を行くこと。 🐾
+        <div class="mt-10 text-[8px] text-gray-300 tracking-[0.6em] uppercase text-center">
+            Breath . Cat . Freedom
         </div>
     </div>
 
@@ -202,25 +215,25 @@
             const nowTime = now.getTime();
             const diff = targetDate - nowTime;
 
-            const dateStr = now.toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' });
-            document.getElementById("current-date").innerText = dateStr.replace(/\//g, ' 年 ').concat(' 日');
             document.getElementById("current-time").innerText = now.toTimeString().split(' ')[0];
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' };
+            document.getElementById("current-date").innerText = now.toLocaleDateString('zh-TW', options).replace(/\//g, ' / ');
 
             const quoteEl = document.getElementById("quote");
             if (now.getDate() === 25) {
-                quoteEl.classList.add("celebrate-text");
-                quoteEl.innerText = "✨ 忍耐費已入帳，辛苦了。 ✨";
+                quoteEl.classList.add("celebrate-mode");
+                quoteEl.innerText = "本月忍耐費已結清。辛苦了。";
                 if (!hasConfettiShown) {
                     launchConfetti();
                     hasConfettiShown = true;
                 }
             } else {
-                quoteEl.classList.remove("celebrate-text");
+                quoteEl.classList.remove("celebrate-mode");
                 hasConfettiShown = false; 
             }
 
             if (diff <= 0) {
-                document.querySelector(".ukiyo-card").innerHTML = "<h1 class='text-2xl font-black p-10 text-gray-800 text-center'>自由成真。</h1>";
+                document.querySelector(".glass-card").innerHTML = "<h1 class='text-xl font-light p-10 text-center'>Free.</h1>";
                 return;
             }
 
@@ -237,7 +250,7 @@
         }
 
         function launchConfetti() {
-            confetti({ particleCount: 50, spread: 70, origin: { y: 0.8 }, colors: ['#d63031', '#2d3436', '#ffffff'] });
+            confetti({ particleCount: 20, spread: 80, origin: { y: 0.8 }, colors: ['#B49667', '#FFFFFF'] });
         }
 
         setInterval(() => {
