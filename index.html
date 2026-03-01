@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -15,11 +15,11 @@
     <style>
         * {
             font-family: 'Zen Maru Gothic', sans-serif !important;
-            letter-spacing: 0.08em; /* 增加字距營造呼吸感 */
+            letter-spacing: 0.05em;
         }
         
         body {
-            background-color: #F8F9FA;
+            background-color: #E0E5EC;
             background-image: url('BG.jpg');
             background-size: cover;
             background-position: center;
@@ -33,88 +33,94 @@
             overflow: hidden;
         }
 
+        /* 調整：底色更明顯，改為乳白色，增加邊框感 */
         .airy-card {
-            background: rgba(255, 255, 255, 0.7); /* 高透明度 */
-            backdrop-filter: blur(25px); /* 強力磨砂效果 */
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 40px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 250, 240, 0.95); /* 稍微偏暖的奶白色，且不透明度提高 */
+            border: 2px solid #5D4037; /* 加入深茶色細邊框，更有手工感 */
+            border-radius: 35px;
+            box-shadow: 12px 12px 0px rgba(93, 64, 55, 0.1); /* 加入一點厚度的陰影 */
             padding: 40px;
-            color: #576574;
+            color: #5D4037;
         }
 
-        /* 現在時間：極簡線條區隔 */
+        /* 現在時間：改為深咖啡色底，增加對比 */
         .current-time-section {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding-bottom: 20px;
+            background: #5D4037;
+            color: #FFF9F0;
+            border-radius: 20px;
+            padding: 15px;
             margin-bottom: 30px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        /* 倒數盒子：無邊框、陰影感 */
+        /* 倒數盒子：維持原本樣式但邊框加深 */
         .time-box {
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
+            background: #FFF;
+            border: 2px solid #5D4037;
+            border-radius: 18px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             aspect-ratio: 1 / 1;
-            transition: all 0.4s ease;
-        }
-        .time-box:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-5px);
         }
 
         .time-box span:first-child {
             color: #2D3436;
             font-size: 2.2rem;
-            font-weight: 700;
+            font-weight: 900;
             line-height: 1;
         }
 
         .time-unit {
             font-size: 11px;
-            color: #A4B0BE;
-            margin-top: 6px;
-            font-weight: 500;
+            color: #8D6E63;
+            margin-top: 4px;
+            font-weight: 700;
         }
 
-        /* 影片容器：圓潤且柔和 */
         .video-container {
             width: 100%;
             border-radius: 25px;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            border: 3px solid #5D4037;
             margin-bottom: 30px;
         }
 
-        /* 進度條：細緻的莫蘭迪色 */
+        /* 進度條：改為溫暖的橘黃色 */
         .progress-container {
-            height: 4px;
-            background: rgba(0, 0, 0, 0.05);
+            height: 12px;
+            background: #EEDCC6;
             border-radius: 10px;
-            margin: 20px 0;
+            margin: 15px 0;
+            border: 2px solid #5D4037;
+            overflow: hidden;
         }
         .progress-bar {
             height: 100%;
-            background: #B2BEC3;
-            border-radius: 10px;
+            background: linear-gradient(to right, #FFB74D, #FF8A65);
             transition: width 1s ease-in-out;
         }
 
         .speech-bubble {
-            margin-top: 30px;
-            font-size: 14px;
-            color: #8395A7;
-            font-style: italic;
-            line-height: 1.6;
+            background: #FFF;
+            border: 2px solid #5D4037;
+            border-radius: 15px;
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #5D4037;
         }
 
         .celebrate-text {
-            color: #FAB1A0 !important; /* 柔和的珊瑚色 */
-            font-weight: 700;
+            color: #E64A19 !important;
+            animation: soft-pulse 0.8s infinite alternate;
+        }
+
+        @keyframes soft-pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.03); }
         }
     </style>
 </head>
@@ -123,31 +129,30 @@
     <div class="airy-card w-full max-w-sm text-center mx-4">
         
         <div class="current-time-section">
-            <div id="current-date" class="text-[11px] font-medium text-gray-400 mb-1 tracking-[0.2em]">2026 . 03 . 01</div>
-            <div id="current-time" class="text-4xl font-light text-gray-700 tabular-nums tracking-tighter">00:00:00</div>
+            <div id="current-date" class="text-[11px] font-bold opacity-80 mb-1 tracking-widest uppercase">LOADING...</div>
+            <div id="current-time" class="text-4xl font-black tabular-nums tracking-tighter">00:00:00</div>
         </div>
 
         <div class="video-container">
-            <video autoplay loop muted playsinline class="w-full h-auto opacity-90">
+            <video autoplay loop muted playsinline class="w-full h-auto">
                 <source src="輪流探頭動圖製作完成.mp4" type="video/mp4">
             </video>
         </div>
 
-        <div class="text-left mb-6 px-2">
-            <h2 class="text-[10px] font-bold text-gray-300 tracking-[0.3em] uppercase mb-1">Target Date</h2>
-            <h3 class="text-xl font-bold text-gray-600">2027.03.01 自由解放</h3>
+        <div class="text-left mb-6 px-1">
+            <h3 class="text-lg font-black text-[#5D4037] border-b-2 border-[#5D4037] pb-1 inline-block">自由解放：2027.03.01</h3>
         </div>
 
         <div class="grid grid-cols-4 gap-3 mb-8">
-            <div class="time-box shadow-sm"><span id="days">00</span><span class="time-unit">DAYS</span></div>
-            <div class="time-box shadow-sm"><span id="hours">00</span><span class="time-unit">HOURS</span></div>
-            <div class="time-box shadow-sm"><span id="mins">00</span><span class="time-unit">MINS</span></div>
-            <div class="time-box shadow-sm"><span id="secs">00</span><span class="time-unit">SECS</span></div>
+            <div class="time-box shadow-sm"><span id="days">00</span><span class="time-unit">日</span></div>
+            <div class="time-box shadow-sm"><span id="hours">00</span><span class="time-unit">時</span></div>
+            <div class="time-box shadow-sm"><span id="mins">00</span><span class="time-unit">分</span></div>
+            <div class="time-box shadow-sm"><span id="secs">00</span><span class="time-unit">秒</span></div>
         </div>
 
-        <div class="px-2">
-            <div class="flex justify-between text-[10px] font-bold text-gray-400">
-                <span>PROGRESS</span>
+        <div class="px-1">
+            <div class="flex justify-between text-[11px] font-black text-[#5D4037] mb-1">
+                <span>🐾 自由進度</span>
                 <span id="percent-text">0%</span>
             </div>
             <div class="progress-container">
@@ -155,12 +160,12 @@
             </div>
         </div>
 
-        <div class="speech-bubble">
-            <p id="quote">正在讀取自由的氣息...</p>
+        <div class="speech-bubble shadow-inner">
+            <p id="quote">正在載入自由...</p>
         </div>
 
-        <div class="mt-8 text-[9px] text-gray-300 font-bold tracking-[0.4em]">
-            STEADY AND SLOW
+        <div class="mt-8 text-[10px] text-gray-400 font-bold italic tracking-[0.2em]">
+            🐈 KEEP CALM AND WAIT FOR FREEDOM 🐾
         </div>
     </div>
 
@@ -169,12 +174,12 @@
         const startDate = new Date("February 26, 2026 00:00:00").getTime();
 
         const quotes = [
-            "工作是為了生活，不是生活的全部。",
+            "工作是為了支撐你的貓咪跟遊戲，不是全部。",
             "這份薪水包含了一部分的忍耐費。",
-            "每天學著放過自己，你已經很棒了。",
-            "再忍一下，休息是為了走更遠的路。",
-            "所有的痛苦都有終點。",
-            "未來的你在 2027 年等待著。"
+            "每天學著放過自己，你已經很棒了!!。",
+            "再忍一下，休息是為了以後走更遠的路。",
+            "倒數是為了提醒自己，痛苦都有終點。",
+            "未來的你在 2027 年 3 月等著你。"
         ];
 
         let hasConfettiShown = false;
@@ -184,14 +189,14 @@
             const nowTime = now.getTime();
             const diff = targetDate - nowTime;
 
-            const dateStr = now.toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, ' . ');
-            document.getElementById("current-date").innerText = dateStr;
+            const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' };
+            document.getElementById("current-date").innerText = now.toLocaleDateString('zh-TW', dateOptions).replace(/\//g, ' . ');
             document.getElementById("current-time").innerText = now.toTimeString().split(' ')[0];
 
             const quoteEl = document.getElementById("quote");
             if (now.getDate() === 25) {
                 quoteEl.classList.add("celebrate-text");
-                quoteEl.innerText = "本月忍耐費已入帳，辛苦了。";
+                quoteEl.innerText = "✨ 薪水入帳，忍耐費已續約 ✨";
                 if (!hasConfettiShown) {
                     launchConfetti();
                     hasConfettiShown = true;
@@ -202,7 +207,7 @@
             }
 
             if (diff <= 0) {
-                document.querySelector(".airy-card").innerHTML = "<h1 class='text-xl font-bold p-10 text-gray-600 text-center'>終於，自由了。</h1>";
+                document.querySelector(".airy-card").innerHTML = "<h1 class='text-2xl font-bold p-10 text-[#5D4037] text-center'>終於，自由了！🐾</h1>";
                 return;
             }
 
@@ -219,13 +224,13 @@
         }
 
         function launchConfetti() {
-            confetti({ particleCount: 30, spread: 70, origin: { y: 0.8 }, colors: ['#DFE6E9', '#B2BEC3'] });
+            confetti({ particleCount: 50, spread: 70, origin: { y: 0.8 }, colors: ['#FFB74D', '#5D4037', '#FFF9F0'] });
         }
 
         setInterval(() => {
             if (new Date().getDate() !== 25) {
                 const q = quotes[Math.floor(Math.random() * quotes.length)];
-                document.getElementById("quote").innerText = q;
+                document.getElementById("quote").innerText = `「${q}」`;
             }
         }, 8000);
 
