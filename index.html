@@ -10,14 +10,15 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Ma+Shan+Zheng&family=Noto+Sans+TC:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mochiyopop+One&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
+        /* 全域套用日系圓體 */
         * {
-            font-family: 'ZCOOL KuaiLe', 'Noto Sans TC', sans-serif !important;
+            font-family: 'Zen Maru Gothic', 'Mochiyopop One', sans-serif !important;
         }
         
         body {
@@ -36,70 +37,70 @@
         }
 
         .cartoon-card {
-            background: rgba(255, 255, 255, 0.96);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 5px solid #4A3728;
+            border: 4px solid #5D4037; /* 日系深茶色邊框 */
             border-radius: 40px;
-            box-shadow: 12px 12px 0px rgba(74, 55, 40, 0.2);
+            box-shadow: 10px 10px 0px rgba(93, 64, 55, 0.1);
         }
 
-        /* --- 更有趣的現在時間：電子儀表板風格 --- */
+        /* 日系簡約狀態欄 */
         .system-time-box {
-            background: #2D241E;
-            color: #FFD700; /* 金色文字 */
+            background: #5D4037;
+            color: #FFF;
             border-radius: 20px;
-            padding: 12px 25px;
-            border: 3px solid #4A3728;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-            display: inline-block;
-            margin-bottom: 25px;
+            padding: 6px 20px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
             position: relative;
         }
 
         .system-tag {
             position: absolute;
-            top: -12px;
-            right: 15px;
-            background: #FF4757;
+            top: -10px;
+            right: -10px;
+            background: #FF8A80;
             color: white;
             font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 5px;
-            letter-spacing: 1px;
+            padding: 2px 10px;
+            border-radius: 10px;
             font-weight: bold;
-            box-shadow: 2px 2px 0px #4A3728;
+            box-shadow: 2px 2px 0px #5D4037;
         }
 
-        /* --- 倒數盒子：解決置中問題 --- */
+        /* 倒數盒子：置中對齊優化 */
         .time-box {
-            background: #fdf6e3;
-            border: 3px solid #4A3728;
+            background: #FFFBF0;
+            border: 3px solid #5D4037;
             border-radius: 20px;
-            aspect-ratio: 1 / 1; /* 確保是正方形 */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 5px;
+            aspect-ratio: 1 / 1;
+            padding: 4px;
         }
 
+        /* 數字改用 Mochiyopop One 更有日系海報感 */
         .time-box span:first-child {
-            color: #4A3728;
-            line-height: 1;
-            margin-bottom: 2px;
+            font-family: 'Mochiyopop One', sans-serif !important;
+            color: #5D4037;
+            font-size: 2.2rem;
+            line-height: 1.1;
         }
 
         .time-unit {
-            font-family: 'Ma Shan Zheng', cursive !important;
-            color: #8B5E3C;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 13px;
+            color: #8D6E63;
+            font-weight: 900;
         }
 
         .speech-bubble {
-            background: #FFFBE6;
-            border: 3px solid #4A3728;
+            background: #FEF9E7;
+            border: 3px solid #5D4037;
             border-radius: 25px;
             position: relative;
         }
@@ -107,21 +108,24 @@
         .video-container {
             width: 100%;
             border-radius: 30px;
-            border: 4px solid #4A3728;
+            border: 3px solid #5D4037;
             overflow: hidden;
             background: #fff;
         }
 
         .celebrate-text {
-            color: #FF1493 !important;
-            text-shadow: 2px 2px 0px #FFF;
-            animation: bounce-cute 0.6s infinite alternate;
+            color: #FF5252 !important;
+            animation: soft-bounce 0.8s infinite alternate;
             display: inline-block;
         }
 
-        @keyframes bounce-cute {
+        @keyframes soft-bounce {
             from { transform: scale(1); }
-            to { transform: scale(1.1); }
+            to { transform: scale(1.05); }
+        }
+
+        #progress-bar {
+            border-radius: 20px;
         }
     </style>
 </head>
@@ -130,11 +134,9 @@
     <div class="cartoon-card w-full max-w-md p-8 text-center relative mx-4">
         
         <div class="system-time-box">
-            <span class="system-tag">LIVE NOW</span>
-            <div id="current-date" class="text-[11px] font-bold opacity-70 mb-1 tracking-tighter">LOADING...</div>
-            <div class="flex items-center justify-center gap-3">
-                <div id="current-time" class="text-3xl font-black tracking-widest tabular-nums">00:00:00</div>
-            </div>
+            <span class="system-tag">今の日時 🐾</span>
+            <div id="current-date" class="text-[12px] font-bold opacity-80 mb-0.5 tracking-tight">LOADING...</div>
+            <div id="current-time" class="text-3xl font-black tabular-nums tracking-widest">00:00:00</div>
         </div>
 
         <div class="flex justify-center mb-6 video-container">
@@ -143,31 +145,31 @@
             </video>
         </div>
 
-        <h2 class="text-2xl font-black mb-6 text-sky-800 border-b-4 border-yellow-300 pb-1 inline-block">自由解放：2027.03.01</h2>
+        <h2 class="text-xl font-black mb-6 text-orange-800 border-b-2 border-orange-100 pb-1 inline-block">自由解放日まで、あと...</h2>
 
         <div class="grid grid-cols-4 gap-3 mb-8">
-            <div class="time-box shadow-md"><span id="days" class="text-4xl font-black">00</span><span class="time-unit">天</span></div>
-            <div class="time-box shadow-md"><span id="hours" class="text-4xl font-black">00</span><span class="time-unit">時</span></div>
-            <div class="time-box shadow-md"><span id="mins" class="text-4xl font-black">00</span><span class="time-unit">分</span></div>
-            <div class="time-box shadow-md"><span id="secs" class="text-4xl font-black">00</span><span class="time-unit">秒</span></div>
+            <div class="time-box shadow-sm"><span id="days">00</span><span class="time-unit">日</span></div>
+            <div class="time-box shadow-sm"><span id="hours">00</span><span class="time-unit">時</span></div>
+            <div class="time-box shadow-sm"><span id="mins">00</span><span class="time-unit">分</span></div>
+            <div class="time-box shadow-sm"><span id="secs">00</span><span class="time-unit">秒</span></div>
         </div>
 
         <div class="mb-10 text-left relative px-2">
-            <div class="flex justify-between text-[15px] mb-2 font-black text-orange-600">
+            <div class="flex justify-between text-[14px] mb-2 font-black text-stone-600">
                 <span>🐾 自由進度</span>
-                <span id="percent-text" class="text-orange-700">0%</span>
+                <span id="percent-text">0%</span>
             </div>
-            <div class="w-full bg-stone-200 h-6 rounded-full border-3 border-stone-400 relative overflow-hidden">
-                <div id="progress-bar" class="h-full bg-gradient-to-r from-pink-400 via-orange-500 to-yellow-300 rounded-full transition-all duration-1000" style="width: 0%"></div>
+            <div class="w-full bg-stone-100 h-5 rounded-full border-2 border-stone-300 relative overflow-hidden">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-orange-300 to-orange-500 transition-all duration-1000" style="width: 0%"></div>
             </div>
         </div>
 
         <div class="min-h-[100px] flex items-center justify-center speech-bubble p-5 text-center shadow-inner">
-            <p id="quote" class="text-[17px] font-bold leading-relaxed text-slate-700">「正在載入自由...🐾」</p>
+            <p id="quote" class="text-[16px] font-bold leading-relaxed text-stone-700">「正在載入自由...🐾」</p>
         </div>
 
         <div class="mt-8 pt-4 text-[13px] text-stone-400 font-bold italic">
-            🐈 每一秒鐘，都在變回自由的貓 🐈
+            🐈 自由まで、あと一歩。 🐈
         </div>
     </div>
 
@@ -191,8 +193,9 @@
             const nowTime = now.getTime();
             const diff = targetDate - nowTime;
 
-            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
-            document.getElementById("current-date").innerText = now.toLocaleDateString('zh-TW', dateOptions);
+            // 日期顯示調整為日系風格
+            const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' };
+            document.getElementById("current-date").innerText = now.toLocaleDateString('zh-TW', dateOptions).replace(/\//g, '.');
             document.getElementById("current-time").innerText = now.toTimeString().split(' ')[0];
 
             const quoteEl = document.getElementById("quote");
@@ -209,7 +212,7 @@
             }
 
             if (diff <= 0) {
-                document.querySelector(".cartoon-card").innerHTML = "<h1 class='text-4xl font-bold p-10 text-gray-800 text-center'>🎉 你自由了！🐾</h1>";
+                document.querySelector(".cartoon-card").innerHTML = "<h1 class='text-4xl font-black p-10 text-stone-800 text-center'>🎉 おめでとう！自由だ！🐾</h1>";
                 return;
             }
 
@@ -234,14 +237,14 @@
                     angle: 60,
                     spread: 60,
                     origin: { x: 0, y: 0.8 },
-                    colors: ['#FFC0CB', '#FF69B4', '#FFD700', '#48dbfb', '#FFFFFF']
+                    colors: ['#FFE082', '#FFAB91', '#FF8A80', '#FFFFFF']
                 });
                 confetti({
                     particleCount: 5,
                     angle: 120,
                     spread: 60,
                     origin: { x: 1, y: 0.8 },
-                    colors: ['#FFC0CB', '#FF69B4', '#FFD700', '#48dbfb', '#FFFFFF']
+                    colors: ['#FFE082', '#FFAB91', '#FF8A80', '#FFFFFF']
                 });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
@@ -252,7 +255,7 @@
                 const q = quotes[Math.floor(Math.random() * quotes.length)];
                 document.getElementById("quote").innerText = `「${q}」`;
             }
-        }, 6000);
+        }, 8000);
 
         setInterval(update, 1000);
         update();
